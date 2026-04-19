@@ -1,0 +1,3 @@
+*.fpk
+bash_fpk/app.tgz
+__pycache__/

@@ -1,0 +1,16 @@
+{
+    ".url": {
+        "bash.Application": {
+            "title": "FnOS-terminal",
+            "desc": "FnOS-terminal",
+            "icon": "images/icon-{0}.png",
+            "type": "iframe",
+            "port": "12701",
+            "url": "/",
+            "control": {
+                "showRoute": 1
+            },
+            "allUsers": false
+        }
+    }
+}

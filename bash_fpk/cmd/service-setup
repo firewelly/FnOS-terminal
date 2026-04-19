@@ -1,0 +1,35 @@
+#!/bin/bash
+### Generic variables and functions
+### -------------------------------
+
+### Package specific variables and functions
+### ----------------------------------------
+
+
+compute_sha256()
+{
+    if command -v sha256sum >/dev/null 2>&1; then
+        printf "%s" "$1" | sha256sum | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        printf "%s" "$1" | shasum -a 256 | awk '{print $1}'
+    else
+        python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode("utf-8")).hexdigest())' "$1"
+    fi
+}
+
+
+service_postinst ()
+{
+    # Store hashed credentials to avoid writing plaintext passwords on disk.
+    if [ "${TRIM_APP_STATUS}" = "INSTALL" ]; then
+        if [ -n "${term_auth_username}" ] && [ -n "${term_auth_password}" ]; then
+            password_hash="$(compute_sha256 "${term_auth_password}")"
+            printf "sha256:%s:%s\n" "${term_auth_username}" "${password_hash}" > "${TRIM_PKGVAR}/key.txt"
+        else
+            : > "${TRIM_PKGVAR}/key.txt"
+        fi
+    fi
+}
+
+
+SERVICE_COMMAND="python3 ${TRIM_APPDEST}/bin/terminal_server.py --address 127.0.0.1 --port 12701"

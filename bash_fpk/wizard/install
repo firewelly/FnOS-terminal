@@ -1,0 +1,35 @@
+[
+    {
+        "stepTitle": "初始化账号密码",
+        "items": [
+            {
+				"type":"tips",
+                "helpText": "可选：设置 Web 端访问认证。若留空则不启用认证（打开 App 不需要输入用户名密码）。" 
+            },
+			{
+				"type": "text",
+				"helpText": "初始化用户名",
+				"field": "term_auth_username",
+				"label":"输入用户名",
+				"rules": [{
+					"required": false,
+					"message":"输入范围错误",
+					"min": 3,
+					"max": 32
+				}]
+			},
+			{
+				"type": "text",
+				"field": "term_auth_password",
+				"label":"输入8-32位非纯数字密码",
+				"rules": [{
+					"required": false,
+					"message":"输入错误",
+					"min": 8,
+					"max": 32,
+					"pattern":"^[0-9]*[^0-9]+[0-9]*$"
+				}]
+			}
+        ]
+    }
+]
